@@ -3,7 +3,7 @@
     <h3>全部列表</h3>
     <el-row :gutter="20">
       <el-col :span="6" v-for="item in lists">
-        <router-link to="/detail">
+        <router-link :to="'/detail/'+item.id">
           <div class="list-img">
             <img :src='item.picture' alt="">
           </div>
@@ -13,8 +13,11 @@
     </el-row>
     <div class="block">
       <el-pagination
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total,prev, pager, next"
+        :total="total"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        >
       </el-pagination>
     </div>
   </div>
@@ -25,45 +28,26 @@ export default {
   name: 'List',
   data () {
     return {
-      lists: [
-        {
-          id: 1,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp',
-          hot: true
-        },
-        {
-          id: 2,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp',
-          hot: true
-        },
-        {
-          id: 3,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp',
-          hot: false
-        },
-        {
-          id: 4,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp',
-          hot: false
-        },
-        {
-          id: 5,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp',
-          hot: true
-        },
-        {
-          id: 6,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp',
-          hot: true
-        }
-      ]
+      lists: [],
+      currentPage: 1,
+      total: 2,
+      pageSize: 1
     }
+  },
+  methods: {
+    getMovieList () {
+      this.axios.get('/movieList')
+      .then(res => {
+        // console.log(res.data.result.content)
+        this.lists = res.data.result.content
+        this.currentPage = res.data.result.pageNum //当前页数
+        this.total = res.data.result.total  //总条目数
+        this.pageSize = res.data.result.pagesize //每页显示条目数
+      })
+    }
+  },
+  created() {
+    this.getMovieList()
   }
 }
 </script>
@@ -80,11 +64,6 @@ h3 {
 }
 p {
   color: #333;
-  span {
-    img {
-      width: 16px;
-    }
-  }
 }
 .block {
   margin-top: 30px;

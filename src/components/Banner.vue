@@ -4,10 +4,10 @@
       <router-link to="/alllist"><el-button type="primary" plain>All List</el-button></router-link>
     </el-row>
     <el-carousel :interval="4000" type="card" height="400px">
-      <el-carousel-item v-for="item in items">
+      <el-carousel-item v-for="item in list">
         <router-link :to="'/detail/'+item.id">
           <img :src='item.picture' alt="">
-          <p>{{ item.name }}</p>
+          <p><span><img v-if="item.hot" src="../assets/hot.png">{{ item.name }}</span></p>
         </router-link>
       </el-carousel-item>
     </el-carousel>
@@ -15,36 +15,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Banner',
-  props:{
-    item: Object
-  },
   data () {
     return {
-      items: [
-        {
-          id: 1,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp'
-        },
-        {
-          id: 2,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp'
-        },
-        {
-          id: 3,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp'
-        },
-        {
-          id: 4,
-          name: '复仇者联盟3',
-          picture: 'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2517753454.webp'
-        }
-      ]
+      list: []
     }
+  },
+  methods: {
+    getMovie () {
+      axios.get('/movieHot')
+      .then(res => {
+        if (res.data.status === 200) {
+          // console.log(res.data.result.list)
+          this.list = res.data.result.list
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.message,
+            type: 'error'
+          })
+        }
+      })
+    }
+  },
+  created() {
+    this.getMovie()
   }
 }
 </script>
@@ -58,5 +55,8 @@ p {
   margin-top: 0;
   font-size: 16px;
   color: #000;
+  img {
+    width: 16px;
+  }
 }
 </style>
