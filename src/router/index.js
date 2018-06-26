@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Banner from '@/components/Banner'
-import List from '@/components/List'
-import Detail from '@/components/Detail'
+import banner from '@/views/banner'
+import list from '@/views/list'
+import detail from '@/views/detail'
+import logIn from '@/views/logIn'
+import signUp from '@/views/signUp'
 
 Vue.use(Router)
 
@@ -10,18 +12,28 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Banner',
-      component: Banner
+      name: 'banner',
+      component: banner
     },
     {
       path: '/alllist',
-      name: 'List',
-      component: List
+      name: 'list',
+      component: list
     },
     {
       path: '/detail/:id',
-      name: 'Detail',
-      component: Detail
+      name: 'detail',
+      component: detail
+    },
+    {
+      path: '/login',
+      name: 'logIn',
+      component: logIn
+    },
+    {
+      path: '/signup',
+      name: 'signUp',
+      component: signUp
     }
   ]
 })

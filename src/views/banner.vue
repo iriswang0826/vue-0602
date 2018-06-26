@@ -4,7 +4,7 @@
       <router-link to="/alllist"><el-button type="primary" plain>All List</el-button></router-link>
     </el-row>
     <el-carousel :interval="4000" type="card" height="400px">
-      <el-carousel-item v-for="item in list">
+      <el-carousel-item v-for="item in list" :key="item.id">
         <router-link :to="'/detail/'+item.id">
           <img :src='item.picture' alt="">
           <p><span><img v-if="item.hot" src="../assets/hot.png">{{ item.name }}</span></p>
@@ -17,7 +17,7 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'Banner',
+  name: 'banner',
   data () {
     return {
       list: []

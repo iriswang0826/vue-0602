@@ -2,7 +2,7 @@
   <div>
     <h3>全部列表</h3>
     <el-row :gutter="20">
-      <el-col :span="6" v-for="item in lists">
+      <el-col :span="6" v-for="item in lists" :key="item.id">
         <router-link :to="'/detail/'+item.id">
           <div class="list-img">
             <img :src='item.picture' alt="">
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'List',
+  name: 'list',
   data () {
     return {
       lists: [],
